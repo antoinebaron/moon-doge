@@ -27,7 +27,6 @@ TARGET // target price in percent
 
 Run in terminal : php doge.php
 
-And wait ... !
 
 
 ![Capture du 2021-04-01 13-13-49](https://user-images.githubusercontent.com/72351273/113289538-a308c780-92f0-11eb-8d56-d551bfde6069.png)
