@@ -1,0 +1,269 @@
+<?php
+
+//ini_set('display_errors', 1);
+//error_reporting(E_ALL); 
+
+include 'ccxt/ccxt.php'; /// include lib from https://github.com/ccxt
+include 'twitter-api-php-master/TwitterAPIExchange.php'; // lib twitter from https://github.com/J7mbo/twitter-api-php
+
+date_default_timezone_set('UTC');
+
+define('BINANCE_API_KEY', ''); // your binance API Key (enable futures)
+define('BINANCE_SECRET', ''); // your binance API Key secret
+define('TWITTER_API_KEY', ''); // twitter API Key
+define('TWITTER_SECRET', ''); // twitter API Key secret
+define('TARGET', '5'); /// set target in percent 
+
+
+
+
+$last_id = 0;
+$count = 0;
+
+//as long as the last tweet don't mention Doge
+while (1==1) {
+
+	$getTweet = get_last_elon_tweet();
+
+	/// wait 1 second
+	sleep(1);
+	
+	if($getTweet!=null){
+
+		$isIdOk = true;
+
+		$elon_tweet = $getTweet;
+
+		echo date('d-m-Y H:i:s') . ' - Elon last tweet : ' . $elon_tweet['txt'];
+		echo "\n";
+
+		//sometimes twitter api is giving some old tweet so make sure the id of the tweet is the newest
+		if($elon_tweet['id']<$last_id){ 
+			$isIdOk = false;
+		}else{
+			$last_id = $elon_tweet['id'];
+		}
+
+		if($isIdOk===true){
+
+			//if we find doge in last tweet
+			if(is_doge_found_in_tweet($elon_tweet['txt'])){
+
+				echo "\n";
+				echo 'let\'s go ! ...' . "  \n";
+				echo "\n";
+				doge_to_the_moon();
+				break;
+
+			}
+		}
+	}
+}
+
+
+function is_doge_found_in_tweet($tweet){
+
+	$findMe   = array(	'Doge', 'doge', 'DOGE', 'DogeCOIN', 'DogeCoin', 'Dogecoin', 'DOGECOIN', 'dogecoin', 'dogeCoin', '$DOGE');
+	$found = false;
+
+		foreach ($findMe as $key => $value) {
+
+			$find = $findMe[$key];
+
+			/// if the tweet cointain only doge word
+			if(trim($tweet)==$find){
+				echo 'found';
+				echo "\n";
+				$found = true;
+				break;
+			}
+
+			//check if the tweet start with "word "
+			if (str_starts_with($tweet, $find . " ")) {
+				echo 'The tweet starts with "' . $find . ' "';
+				echo "\n";
+				$found = true;
+				break;
+			} 
+
+			//check if the tweet ends with " word"
+			if (str_ends_with($tweet, " " . $find)) {
+				echo 'The tweet ends with " ' . $find . '"';
+				echo "\n";
+				$found = true;
+				break;
+			} 
+
+			//check if the tweet contains " word "
+			if(strpos(trim($tweet), " " . $find . " ") !== false){
+				echo 'found inside tweet';
+				echo "\n";
+				$found = true;
+				break;
+			}
+
+		}
+	
+	return $found;
+}
+
+
+function str_starts_with($string, $prefix) {
+	return substr($string, 0, strlen($prefix)) == $prefix;
+}
+
+
+function str_ends_with($string, $prefix) {
+	return substr($string, -strlen($prefix), strlen($prefix)) == $prefix;
+}
+
+
+//get Elon Musk last tweet
+//User Tweet timeline 
+//1500 request / 15 minute PER APP AUTH == 100 request / minute
+function get_last_elon_tweet(){
+
+	// Set here your twitter application tokens
+	$settings = array(
+	  'consumer_key' => TWITTER_API_KEY,
+	  'consumer_secret' => TWITTER_SECRET,
+	  'oauth_access_token' => '',
+	  'oauth_access_token_secret' => '',
+	);
+
+	$screen_name = 'elonmusk';
+	$url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
+	$getfield = "?screen_name={$screen_name}";
+	$requestMethod = 'GET';
+
+	$twitter = new TwitterAPIExchange($settings);
+	$user_timeline = $twitter
+	  ->setGetfield($getfield)
+	  ->buildOauth($url, $requestMethod)
+	  ->performRequest();
+
+	$user_timeline = array_values(json_decode($user_timeline, true));
+	$last_tweet = array('txt'=>"", 'id'=>"");
+
+	foreach ($user_timeline as $key => $value) {
+		
+		if(empty($user_timeline[$key]['in_reply_to_user_id'])){
+
+			$last_tweet_text = $user_timeline[$key]['text'];
+			$last_tweet_id = $user_timeline[$key]['id'];
+	
+			return array('txt' => $last_tweet_text, 'id' => $last_tweet_id);
+
+			break;
+
+		}
+	}
+
+}
+
+
+function doge_to_the_moon(){
+
+	$binance     = new \ccxt\binance  (array (
+	    'apiKey' => BINANCE_API_KEY,
+	    'secret' => BINANCE_SECRET,
+	    'enableRateLimit' => true,
+	    'options' => array(
+	        'defaultType' => 'future'
+	    ),
+	));
+
+	//$binance->verbose = true; //  uncomment for debugging
+
+	$symbol = 'DOGE/USDT';
+
+	$balance = $binance->fetch_balance();
+
+	//print_r($balance);
+
+	/// some checking
+	if($balance["info"]["canTrade"]!=1){ echo 'not alowed to trade, check API settings'; exit;}
+
+	//find USDT id in balance array
+	$usdt_key = false;
+	foreach ($balance["info"]["assets"] as $key => $arrayValue) { 
+		if($balance["info"]["assets"][$key]['asset']=='USDT') $usdt_key = $key; }
+	if($usdt_key===false){echo  'USDT token not found on binance'; exit;  } 
+
+	// get usdt balance
+	$usdt_balance = $balance["info"]["assets"][$usdt_key]['walletBalance'];
+	if($usdt_balance==0){echo  'no USDT found, add USDT to account'; exit; } 
+
+	//get the last price
+	$ticker = $binance->fetch_ticker ($symbol);
+	$lastPrice = $ticker['last']; 
+
+	//calculate target price
+	$target_price = $lastPrice + $lastPrice *(TARGET/100);
+
+	echo 'actual balance : ' . $usdt_balance . " USDT \n";
+	echo 'actual DOGE price : ' . $lastPrice . " USDT\n";
+	echo 'target DOGE price : ' . $target_price . " USDT\n";
+
+	//calculate amount to buy from available balance
+	///add 0.01 to get a slightly inferior qtt of what we can get 
+	//just in case ...
+	$qtt = $usdt_balance / ($lastPrice+0.01); 
+
+	echo 'creating market order for ' . $qtt . " DOGE\n";
+
+	//create BUY order
+	create_market_order($binance, $symbol, $qtt, 'buy');
+
+	echo 'order successfully created, waiting for the price to pump ...' . "\n";
+
+	////wait the price to pump
+	$actual_price = $lastPrice;
+	$entry_price = $lastPrice;
+
+	while ($lastPrice <= $target_price+1) {
+		
+		$ticker = $binance->fetch_ticker ($symbol);
+		$actual_price = $ticker['last']; 
+		$change_percent = round(($actual_price-$entry_price)/$entry_price*100, 2);
+
+		echo 'actual price : ' . $actual_price . ' USDT ('. $change_percent .'%)' . "\n";
+
+		//if the price is on target
+		if($actual_price>= $target_price){
+
+			///market sell
+			echo 'The price is on target ... creating sell order' . "\n";
+			create_market_order($binance, $symbol, $qtt, 'sell');
+			echo 'Market sell order done !' . "\n";
+			break;
+		}else{
+			sleep(1);
+		}
+
+		//set last price for the next iteration
+		$lastPrice = $actual_price;
+
+	}
+
+}
+
+
+function create_market_order($exchange, $symbol, $qtt, $buyOrSell){
+
+	try {
+
+	  $exchange->create_order ($symbol, 'market', $buyOrSell, $qtt);
+
+	} catch (\ccxt\NetworkError $e) {
+	    echo '[Network Error] ' . $e->getMessage() . "\n"; exit;
+	} catch (\ccxt\ExchangeError $e) {
+	    echo '[Exchange Error] ' . $e->getMessage() . "\n"; exit;
+	} catch (Exception $e) {
+	    echo '[Error] ' . $e->getMessage() . "\n"; exit;
+	}
+
+}
+
+
+
