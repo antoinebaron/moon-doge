@@ -4,7 +4,7 @@ moon-doge is a PHP bot that will buy DogeCoin on Binance when Elon Musk mention 
 
 Every second it will check the occurence of DogeCoin inside Elon's last tweet. 
 When found, it will automatically buy DogeCoin on Binance.
-It will take all the available USDT in the futures wallet of your Binance account and buy Doge with the leverage you will have previously set for DOGEUSDT Perpetual. It will also automatically sell when the price hit the target (defined by "TARGET").
+It will convert all the available USDT in the futures wallet of your Binance account into Doge with the leverage you will have previously set for DOGEUSDT Perpetual. It will also automatically sell when the price hit the target (defined by "TARGET").
 
 It is best to have a dedicated Binance account only for this script.
 You will need to create an API key on Binance with Futures enabled. Also a twitter API Key and secret.
