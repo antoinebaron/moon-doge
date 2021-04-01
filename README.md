@@ -13,9 +13,13 @@ The script needs those 2 dependencies :
 - CCXT : https://github.com/ccxt
 - twitter-api-php from https://github.com/J7mbo/twitter-api-php
 
+Run in terminal !
+
 
 
 ![Capture du 2021-04-01 13-13-49](https://user-images.githubusercontent.com/72351273/113289538-a308c780-92f0-11eb-8d56-d551bfde6069.png)
 
 ![Capture du 2021-04-01 13-12-10](https://user-images.githubusercontent.com/72351273/113289479-8ff5f780-92f0-11eb-8872-a2a001591f2b.png)
+
+![Capture du 2021-04-01 14-19-41](https://user-images.githubusercontent.com/72351273/113292885-5ecbf600-92f5-11eb-8c90-289f7fbb3d7e.png)
 
