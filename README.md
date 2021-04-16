@@ -41,6 +41,12 @@ Before to run the scipt in production, make sure everything is good with your Bi
     
 then run the script in terminal.
 
+This will check :
+    - your Binance keys
+    - The Binance API connection
+    - Your USDT balance
+
+
 ## Usage
 
 Run in terminal : 
