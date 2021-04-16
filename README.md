@@ -35,7 +35,7 @@ AMOUNT // set the amount USDT (if empty it will take the available funds)
 
 ## Testing
 
-Before to run the scipt in production, make sure everything is good with your Binance configuration. To do so, uncomment the line
+Before to run the scipt in production, make sure that your Binance configuration will work. To do so, uncomment the line
 
     //check_binance(); exit;
     
