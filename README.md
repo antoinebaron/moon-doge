@@ -33,7 +33,7 @@ TARGET // target price in percent
 
 AMOUNT // set the amount USDT (if empty it will take the available funds)
 
-## testing
+## Testing
 
 Before to run the scipt in production, make sure everything is good with your Binance configuration. To do so, uncomment the line
 
