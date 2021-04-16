@@ -67,12 +67,12 @@ Run in terminal :
 
 ## Updates
 
-   - 16 April 2021 : 
+### 16 April 2021 : 
  
-        1/ you can now define AMOUNT
-        
-        2/ check if the tweet is recent (< 1 minute) in case we start the script and Elon last tweet have mentioned dogecoin but it is too late
-        
-        3/ added check_binance(); function
+   - you can now define AMOUNT
+   
+   - check if the tweet is recent (< 1 minute) in case we start the script and Elon last tweet have mentioned dogecoin but it is too late
+   
+   - added check_binance(); function
         
         
