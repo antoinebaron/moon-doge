@@ -63,3 +63,16 @@ Run in terminal :
 ![Capture du 2021-04-01 13-12-10](https://user-images.githubusercontent.com/72351273/113289479-8ff5f780-92f0-11eb-8872-a2a001591f2b.png)
 
 ![Capture du 2021-04-01 14-21-08](https://user-images.githubusercontent.com/72351273/113293015-8753f000-92f5-11eb-836b-b01451628288.png)
+
+
+## Updates
+
+   - 16 April 2021 : 
+ 
+        1/ you can now define AMOUNT
+        
+        2/ check if the tweet is recent (< 1 minute) in case we start the script and Elon last tweet have mentioned dogecoin but it is too late
+        
+        3/ added check_binance(); function
+        
+        
