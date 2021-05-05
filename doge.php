@@ -27,7 +27,7 @@ $last_id = 0;
 $count = 0;
 
 //as long as the last tweet don't mention Doge
-while (1==1) {
+while (true) {
 
 	$getTweet = get_last_elon_tweet();
 
