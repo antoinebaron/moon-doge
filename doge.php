@@ -90,7 +90,7 @@ function is_doge_found_in_tweet($tweet){
 			}
 
 			//check if the tweet start with "word "
-			if (str_starts_with($tweet, $find . " ")) {
+			if (string_starts_with($tweet, $find . " ")) {
 				echo 'The tweet starts with "' . $find . ' "';
 				echo "\n";
 				$found = true;
@@ -98,7 +98,7 @@ function is_doge_found_in_tweet($tweet){
 			} 
 
 			//check if the tweet ends with " word"
-			if (str_ends_with($tweet, " " . $find)) {
+			if (string_ends_with($tweet, " " . $find)) {
 				echo 'The tweet ends with " ' . $find . '"';
 				echo "\n";
 				$found = true;
@@ -118,12 +118,12 @@ function is_doge_found_in_tweet($tweet){
 	return $found;
 }
 
-function str_starts_with($string, $prefix) {
+function string_starts_with($string, $prefix) {
 	return substr($string, 0, strlen($prefix)) == $prefix;
 }
 
 
-function str_ends_with($string, $prefix) {
+function string_ends_with($string, $prefix) {
 	return substr($string, -strlen($prefix), strlen($prefix)) == $prefix;
 }
 
