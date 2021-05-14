@@ -4,8 +4,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL); 
 
-include 'ccxt/ccxt.php'; /// include lib from https://github.com/ccxt
-include 'twitter-api-php-master/TwitterAPIExchange.php'; // lib twitter from https://github.com/J7mbo/twitter-api-php
+require __DIR__ . '/vendor/autoload.php';
 
 date_default_timezone_set('UTC');
 
@@ -91,7 +90,7 @@ function is_doge_found_in_tweet($tweet){
 			}
 
 			//check if the tweet start with "word "
-			if (str_starts_with($tweet, $find . " ")) {
+			if (string_starts_with($tweet, $find . " ")) {
 				echo 'The tweet starts with "' . $find . ' "';
 				echo "\n";
 				$found = true;
@@ -99,7 +98,7 @@ function is_doge_found_in_tweet($tweet){
 			} 
 
 			//check if the tweet ends with " word"
-			if (str_ends_with($tweet, " " . $find)) {
+			if (string_ends_with($tweet, " " . $find)) {
 				echo 'The tweet ends with " ' . $find . '"';
 				echo "\n";
 				$found = true;
@@ -119,16 +118,14 @@ function is_doge_found_in_tweet($tweet){
 	return $found;
 }
 
-
-function str_starts_with($string, $prefix) {
+function string_starts_with($string, $prefix) {
 	return substr($string, 0, strlen($prefix)) == $prefix;
 }
 
 
-function str_ends_with($string, $prefix) {
+function string_ends_with($string, $prefix) {
 	return substr($string, -strlen($prefix), strlen($prefix)) == $prefix;
 }
-
 
 //get Elon Musk last tweet
 //User Tweet timeline 

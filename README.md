@@ -13,9 +13,11 @@ You will need to create an API key on Binance with Futures enabled. Also a twitt
 
 ## Dependencies
 
-The script needs those 2 dependencies : 
+The script is using Composer and needs those two dependencies : 
 - CCXT : https://github.com/ccxt
 - twitter-api-php from https://github.com/J7mbo/twitter-api-php
+
+All dependencies have to be installed by running `composer install` on the command line.
 
 ## Configuration
 
