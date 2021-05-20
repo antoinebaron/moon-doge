@@ -5,15 +5,9 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL); 
 
 require __DIR__ . '/vendor/autoload.php';
+require_once 'config.php';
 
 date_default_timezone_set('UTC');
-
-define('BINANCE_API_KEY', ''); // your binance API Key (enable futures)
-define('BINANCE_SECRET', ''); // your binance API Key secret
-define('TWITTER_API_KEY', ''); // twitter API Key
-define('TWITTER_SECRET', ''); // twitter API Key secret
-define('TARGET', '5'); /// set target in percent 
-define('AMOUNT', '6'); /// set the amount USDT (if empty it will take the available funds) - minimal order is 6 USDT
 
 /*
 uncomment the line bellow to check if you are all set to place an order on binance
