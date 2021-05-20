@@ -1,0 +1,8 @@
+{
+    "name": "antoinebaron-io/moon-doge",
+    "description": "moon-doge is a PHP bot that will buy DogeCoin on Binance when Elon Musk mention DogeCoin on twitter.",
+    "require": {
+        "ccxt/ccxt": "^1.49",
+        "j7mbo/twitter-api-php": "^1.0"
+    }
+}
