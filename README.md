@@ -51,7 +51,7 @@ So you can first run the bot to watch your own twitter account, then send a test
 >
 >$dogeMoon = new MoonDoge();
 >
->$dogeMoon->run('your_twitter_id');
+>$dogeMoon->run('your_twitter_screen_name');
 >
 
 
