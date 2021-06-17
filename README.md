@@ -19,7 +19,7 @@ The script works using :
 
 ## Installation
 
-composer require antoinebaron-io/moon-doge
+>composer require antoinebaron-io/moon-doge
 
 ## Configuration
 
