@@ -48,7 +48,6 @@ class MoonDoge{
 			*/
 			'logs_path' => false, /// path to the log folder (must be writable) - set to false if you don't want logs
 		);
-
 	}
 
 	/*
@@ -72,7 +71,6 @@ class MoonDoge{
 
 		// if no error, we can start to monitor twitter 
 		$this->monitor($screenName);
-
 	}
 
 	/*
