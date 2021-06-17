@@ -45,7 +45,7 @@ class MoonDoge{
 			/*
 			* Logs
 			*/
-			'logs_path' => '', /// path to the log folder (must be writable) - set to false if you don't want logs
+			'logs_path' => false, /// path to the log folder (must be writable) - set to false if you don't want logs
 		);
 
 	}
