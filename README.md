@@ -24,25 +24,36 @@ composer require antoinebaron-io/moon-doge
 ## Configuration
 
 open 
-vendor/antoinebaron-io/moon-doge/MoonDoge.php 
+
+>vendor/antoinebaron-io/moon-doge/MoonDoge.php
+
 and look for the config array at the top of the file
 
 ## Usage
 
 run the bot in terminal
 
-require_once('vendor/autoload.php');
-$dogeMoon = new MoonDoge();
-$dogeMoon->run();
+>
+>require_once('vendor/autoload.php');
+>
+>$dogeMoon = new MoonDoge();
+>
+>$dogeMoon->run();
+>
 
 ## Run a simulation
 
 You don't want to wait for Elon to tweet about doge to find out there where a configuration problem ...
 So you can first run the bot to watch your own twitter account, then send a test tweet containing the doge or dogecoin word, and see if it is working.
 
-require_once('vendor/autoload.php');
-$dogeMoon = new MoonDoge();
-$dogeMoon->run('your_twitter_id');
+>
+>require_once('vendor/autoload.php');
+>
+>$dogeMoon = new MoonDoge();
+>
+>$dogeMoon->run('your_twitter_id');
+>
+
 
 
 ![Capture du 2021-04-01 13-13-49](https://user-images.githubusercontent.com/72351273/113289538-a308c780-92f0-11eb-8d56-d551bfde6069.png)
