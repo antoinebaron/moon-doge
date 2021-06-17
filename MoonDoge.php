@@ -79,13 +79,13 @@ class MoonDoge{
 	protected function monitor(){
 
 		if($this->screenName!=false){
-			$idUser = $this->getTwitterIdFromScreenName($screenName);
+			$idUser = $this->getTwitterIdFromScreenName($this->screenName);
 		}else{
 			$idUser = 44196397; //elon musk id 
 			$screenName = 'Elonmusk';
 		}
 
-		$this->output("Start monitoring $screenName");
+		$this->output("Start monitoring {$this->screenName}");
 
 		// connect to twitter websocket
 		$this->connectToTwitterWebsocket();
