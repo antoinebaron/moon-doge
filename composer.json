@@ -1,0 +1,13 @@
+{
+    "name": "antoinebaron-io/moon-doge",
+    "description": "Moon Doge buy Dogecoin on FTX when Elon Musk tweet about it, and sell it for profit",
+    "autoload": {
+        "files": [ "MoonDoge.php" ]
+    },
+    "require": {
+	"php": ">=7.0",
+        "spatie/twitter-streaming-api": "^1.4",
+        "j7mbo/twitter-api-php": "^1.0",
+        "ccxt/ccxt": "^1.16"
+    }
+}
