@@ -33,26 +33,26 @@ and look for the config array at the top of the file
 
 run the bot in terminal
 
->
+
 >require_once('vendor/autoload.php');
->
+
 >$moonDoge = new MoonDoge();
->
+
 >$moonDoge->run();
->
+
 
 ## Run a simulation
 
 You don't want to wait for Elon to tweet about doge to find out there where a configuration problem ...
 So you can first run the bot to watch your own twitter account, then send a test tweet containing the doge or dogecoin word, and see if it is working.
 
->
+
 >require_once('vendor/autoload.php');
->
+
 >$moonDoge = new MoonDoge();
->
+
 >$moonDoge->run('your_twitter_screen_name');
->
+
 
 
 
