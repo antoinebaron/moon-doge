@@ -36,9 +36,9 @@ run the bot in terminal
 >
 >require_once('vendor/autoload.php');
 >
->$dogeMoon = new MoonDoge();
+>$moonDoge = new MoonDoge();
 >
->$dogeMoon->run();
+>$moonDoge->run();
 >
 
 ## Run a simulation
@@ -49,9 +49,9 @@ So you can first run the bot to watch your own twitter account, then send a test
 >
 >require_once('vendor/autoload.php');
 >
->$dogeMoon = new MoonDoge();
+>$moonDoge = new MoonDoge();
 >
->$dogeMoon->run('your_twitter_screen_name');
+>$moonDoge->run('your_twitter_screen_name');
 >
 
 
