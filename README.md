@@ -9,7 +9,7 @@ If a mention of dogecoin is found in his last tweet, the script will immediately
 
 ## Dependencies
 
-- API key from you FTX account
+- API key from your FTX account
 - API key from twitter developer (https://developer.twitter.com/en/apply-for-access)
 
 The script works using : 
