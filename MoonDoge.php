@@ -6,6 +6,7 @@ class MoonDoge{
 	protected $exchange;
 	protected $twitter;
 	protected $twitterSocket;
+	protected $screenName;
 
 	public function __construct(){
 
@@ -50,8 +51,13 @@ class MoonDoge{
 
 	}
 
+	/*
+	* run the bot
+	*/
 	public function run(?string $screenName = ''){
 
+		$this->screenName = $screenName;
+		
 		$this->output("Start script moon-doge");
 
 		//check if the settings for the logs are correct
@@ -72,14 +78,11 @@ class MoonDoge{
 	/*
 	* monitor tweets 
 	*/
-	protected function monitor(?string $screenName = ''){
+	protected function monitor(){
 
-		if($screenName!=''){
-
+		if($this->screenName!=false){
 			$idUser = $this->getTwitterIdFromScreenName($screenName);
-
 		}else{
-
 			$idUser = 44196397; //elon musk id 
 			$screenName = 'Elonmusk';
 		}
