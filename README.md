@@ -23,7 +23,9 @@ composer require antoinebaron-io/moon-doge
 
 ## Configuration
 
-open vendor/antoinebaron-io/moon-doge/MoonDoge.php and look for the config array at the top of the file
+open 
+  //vendor/antoinebaron-io/moon-doge/MoonDoge.php 
+and look for the config array at the top of the file
 
 ## Usage
 
