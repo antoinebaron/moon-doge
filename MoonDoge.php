@@ -79,9 +79,9 @@ class MoonDoge{
 	protected function monitor(){
 
 		if($this->screenName!=false){
-			$idUser = $this->getTwitterIdFromScreenName($this->screenName);
+			$this->idUser = $this->getTwitterIdFromScreenName($this->screenName);
 		}else{
-			$idUser = 44196397; //elon musk id 
+			$this->idUser = 44196397; //elon musk id 
 			$screenName = 'Elonmusk';
 		}
 
@@ -91,18 +91,21 @@ class MoonDoge{
 		$this->connectToTwitterWebsocket();
 
 		// watch for new tweets
-		$this->twitterSocket->whenTweets($idUser, function(array $tweet) {
+		$this->twitterSocket->whenTweets($this->idUser, function(array $tweet) {
 
-			$this->output("New tweet : \"" . $this->formatTweet($tweet['text']) . "\" (tweet created at " . $tweet['created_at'] . ")");
-			$this->output("Check the tweet ...");
+			if($this->idUser == $tweet['user']['id']){
+			
+				$this->output("New tweet : \"" . $this->formatTweet($tweet['text']) . "\" (tweet created at " . $tweet['created_at'] . ")");
+				$this->output("Check the tweet ...");
 
-			// if tweet contain doge ...
-			if($this->checkTweet($tweet)==true){
+				// if tweet contain doge ...
+				if($this->checkTweet($tweet)==true){
 
-				$this->dogeToTheMoon();
-				exit;
+					$this->dogeToTheMoon();
+					exit;
+				}
 			}
-
+			
 		})->startListening();
 	}
 
@@ -230,7 +233,12 @@ class MoonDoge{
 
 			$this->output("Tweet is a reply ... wait for another tweet");
 			return false;
-
+			
+		}elseif(substr($tweet['txt'], 0, 2) === 'RT'){
+			
+			$this->output("Tweet is a RT ... wait for another tweet");
+			return false;
+			
 		}else{ // not a reply, check if contains "doge" or "dogecoin"
 
 			$regex  = "/(\s|^)(doge|dogecoin)(\?*|\!*)(\s|$)/i";
