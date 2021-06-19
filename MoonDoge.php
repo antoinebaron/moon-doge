@@ -7,6 +7,7 @@ class MoonDoge{
 	protected $twitter;
 	protected $twitterSocket;
 	protected $screenName;
+	protected $idUser;
 
 	public function __construct(){
 
@@ -224,7 +225,7 @@ class MoonDoge{
 	}
 
 	/*
-	* check if tweet is not a reply and if it contains "doge" or "dogecoin"
+	* check if tweet is not a reply or a retweet and if it contains "doge" or "dogecoin"
 	*/
 	protected function checkTweet($tweet):bool{
 
@@ -233,13 +234,14 @@ class MoonDoge{
 
 			$this->output("Tweet is a reply ... wait for another tweet");
 			return false;
-			
+		
+		//check if tweet is a RT
 		}elseif(substr($tweet['txt'], 0, 2) === 'RT'){
 			
 			$this->output("Tweet is a RT ... wait for another tweet");
 			return false;
 			
-		}else{ // not a reply, check if contains "doge" or "dogecoin"
+		}else{ // not a reply, not a RT, check if contains "doge" or "dogecoin"
 
 			$regex  = "/(\s|^)(doge|dogecoin)(\?*|\!*)(\s|$)/i";
 			if(preg_match($regex, $tweet['text'], $match)){
