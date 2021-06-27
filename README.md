@@ -7,6 +7,16 @@ moon-doge v2 is a PHP bot that will buy DogeCoin on FTX when Elon Musk mention D
 The script will open a websocket connection and monitor Elon Musk twitter account.
 If a mention of dogecoin is found in his last tweet, the script will immediately send a market-buy order of dogecoin on FTX (spot or with leverage). The script will also optionnaly set the stop loss/take profit.
 
+
+
+
+![Capture du 2021-04-01 13-13-49](https://user-images.githubusercontent.com/72351273/113289538-a308c780-92f0-11eb-8d56-d551bfde6069.png)
+
+![Capture du 2021-04-01 13-12-10](https://user-images.githubusercontent.com/72351273/113289479-8ff5f780-92f0-11eb-8872-a2a001591f2b.png)
+
+
+
+
 ## Dependencies
 
 - API key from your FTX account
@@ -56,7 +66,4 @@ So you can first run the bot to watch your own twitter account, then send a test
 
 
 
-![Capture du 2021-04-01 13-13-49](https://user-images.githubusercontent.com/72351273/113289538-a308c780-92f0-11eb-8d56-d551bfde6069.png)
-
-![Capture du 2021-04-01 13-12-10](https://user-images.githubusercontent.com/72351273/113289479-8ff5f780-92f0-11eb-8872-a2a001591f2b.png)
-
+----------------------------------------------------------------------------------------
