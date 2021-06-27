@@ -31,8 +31,7 @@ and look for the config array at the top of the file
 
 ## Usage
 
-run the bot in terminal
-
+Create a new file index.php and paste :
 
 >require_once('vendor/autoload.php');
 
@@ -40,6 +39,7 @@ run the bot in terminal
 
 >$moonDoge->run();
 
+Then run in terminal : php index.php
 
 ## Run a simulation
 
