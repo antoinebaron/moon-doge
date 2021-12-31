@@ -422,3 +422,182 @@ class MoonDoge{
 	}
 
 }
+
+
+/*
+With MoonShiba you need USD ready in your FTX account (not USDT)
+*/
+class MoonShiba extends MoonDoge {
+
+	public function __construct(){
+
+		__parent::construct();
+	}
+
+	/*
+	* run the bot
+	*/
+	public function run(?string $screenName = ''){
+
+		$this->screenName = $screenName;
+		
+		$this->output("Start script moon-shiba");
+
+		//check if the settings for the logs are correct
+		if($this->config['logs_path']!==false)
+			$this->checkLogsSettings();
+
+		//check if the settings for the exchange are correct
+		$this->checkExchangeSettings();
+
+		//check if the settings for the twitter API are correct
+		$this->checkTwitterSettings();
+
+		// if no error, we can start to monitor twitter 
+		$this->monitor($screenName);
+	}
+
+	/*
+	* handle the market order, take profit and stop loss
+	*/
+	protected function dogeToTheMoon(){
+
+		// set symbol
+		if($this->config['leverage']!==false)
+			$this->symbol = 'SHIB-PERP';
+		else
+			$this->symbol = 'SHIB/USD';
+
+		// connect to exchange
+		$this->connectToExchange();
+
+		//get the last price
+		$ticker = $this->exchange->fetch_ticker($this->symbol);
+		$lastPrice = $ticker['last']; 
+
+		//calculate quantity to buy
+		$qtt = $this->config['amount_usdt'] / ($lastPrice);
+
+		//set the leverage (if any)
+		$leverage = $this->config['leverage'];
+		if($leverage!==false){
+			 $this->exchange->private_post_account_leverage(array( 'leverage' => $leverage));
+			 $qtt = $qtt*$leverage;
+		}
+
+		$msg = "Create a market order buy for $qtt at $lastPrice USDT";
+		if($leverage!==false)
+			$msg .= " with leverage x$leverage";
+		$this->output($msg);
+
+
+		// make the market order
+		$this->place_order($qtt, 'buy', 'market');
+
+		// Stop loss
+		if($this->config['stop_loss_percent']!=false){
+
+			//calculate stop loss price
+			$stop_price = $lastPrice - $lastPrice *($this->config['stop_loss_percent']/100);
+			$trigger = $stop_price + $stop_price *(0.5/100);
+
+			$this->place_order($qtt, 'sell', 'stop', $stop_price, $trigger);
+			$this->output("Set the stop loss at $stop_price USDT");
+		}
+
+
+		// Take profit
+		if($this->config['take_profit_percent']!=false){
+
+			//calculate stop loss price
+			$target_price = $lastPrice + $lastPrice *($this->config['take_profit_percent']/100);
+			$trigger = $target_price - $target_price *(0.5/100);
+
+			$this->place_order($qtt, 'sell', 'takeProfit', $target_price, $trigger);
+			$this->output("Set the take profit at $target_price USDT");
+		}
+	}
+
+	/*
+	* check the settings for the exchange
+	*/
+	protected function checkExchangeSettings(){
+
+		$this->connectToExchange();
+
+		// first check : exchange connection
+		$this->output("Check the connection with the exchange ...");
+
+		// if we can't get the balance
+		try {
+			$balance = $this->exchange->fetch_balance();
+		} catch (Exception $e) {
+			// $error = $e->getMessage();
+			$this->errorMsg(1);
+		}
+
+		// if we got the balance
+		$this->output("OK");
+
+		// second check : account balance
+		$this->output("Check wallet for USD balance ..."); 
+		if($balance['USD']['free']>=$this->config['amount_usdt'])
+			$this->output("OK");
+		else
+			$this->errorMsg(2);
+	}
+
+	/*
+	* Function to output error message from internal error code
+	*/
+	protected function errorMsg($code){
+
+		$errorMsgs = array(
+
+			'1' => 'Exchange API-key invalid (edit api-key and settings in /vendor/antoinebaron-io/moon-doge/ToTheMoon.php)',
+			'2' => 'Insufficient USD available in your exchange wallet (add funds in the exchange or change the value of amount_usd in config)',
+			'3' => 'Connection to Twitter API failed, check api keys (https://developer.twitter.com/en/docs/developer-portal/)',
+			'4' => 'twitter - the user does not seem to exist',
+			'5' => 'twitter - could not get the id of the user',
+			'6' => 'The log folder does not exist or is not writable',
+
+		);
+
+		$errorMsg = (is_int($code)) ? $errorMsgs[$code] : $code;
+		$this->output("ERROR : " . $errorMsg);
+		die();
+	}
+
+	/*
+	* check if tweet is not a reply or a retweet and if it contains "shiba"
+	*/
+	protected function checkTweet($tweet):bool{
+
+		// check if the tweet is a reply
+		if($tweet['in_reply_to_screen_name']!=''){
+
+			$this->output("Tweet is a reply ... wait for another tweet");
+			return false;
+		
+		//check if tweet is a RT
+		}elseif(substr($tweet['txt'], 0, 2) === 'RT'){
+			
+			$this->output("Tweet is a RT ... wait for another tweet");
+			return false;
+			
+		}else{ // not a reply, not a RT, check if contains "shiba"
+
+			$regex  = "/(\s|^)(shiba)(\?*|\!*)(\s|$)/i";
+			if(preg_match($regex, $tweet['text'], $match)){
+
+				$this->output("Found " . trim($match[0]) . " in the tweet, go ...");
+				return true;
+
+			}else{
+
+				$this->output("No shiba found in the tweet ... wait for another tweet");
+				return false;
+			}
+		}
+	}
+}
